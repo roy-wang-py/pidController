@@ -9,6 +9,7 @@ public:
   double p_error;
   double i_error;
   double d_error;
+  double total_err;
 
   /*
   * Coefficients
@@ -36,6 +37,7 @@ public:
   * Update the PID error variables given cross track error.
   */
   void UpdateError(double cte);
+  double calSteerValue();
 
   /*
   * Calculate the total PID error.

@@ -3,6 +3,7 @@
 #include "json.hpp"
 #include "PID.h"
 #include <math.h>
+#include <float.h>
 
 // for convenience
 using json = nlohmann::json;
@@ -28,6 +29,9 @@ std::string hasData(std::string s) {
   return "";
 }
 
+//cal almost 1100 cte per circle
+#define STEPS_PER_CIRCLE  1100
+
 int main()
 {
   uWS::Hub h;
@@ -35,12 +39,16 @@ int main()
   PID pid;
   // TODO: Initialize the pid variable.
 
-  double init_Kp = 0.2;
-  double init_Ki = 0.0;
-  double init_Kd = 2.0;
-  pid.Init(init_Kp, init_Ki, init_Kd);
+  double init_Kp = 0.36663;//0.396;0.428076
+  double init_Ki = 0.00553184;//0.00605;0.00607894;0.00553184
+  double init_Kd = 3.00968;//2.262307;2.26122
+  bool twiddle = false;
+  pid.Init(init_Kp, init_Ki, init_Kd ,twiddle);
+  unsigned long long count = 0;
+  double best_err = DBL_MAX;
+  
 
-  h.onMessage([&pid](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
+  h.onMessage([&pid, &count, &best_err](uWS::WebSocket<uWS::SERVER> ws, char *data, size_t length, uWS::OpCode opCode) {
     // "42" at the start of the message means there's a websocket message event.
     // The 4 signifies a websocket message
     // The 2 signifies a websocket event
@@ -74,6 +82,28 @@ int main()
           auto msg = "42[\"steer\"," + msgJson.dump() + "]";
           std::cout << msg << std::endl;
           ws.send(msg.data(), msg.length(), uWS::OpCode::TEXT);
+          //std::cout<<"ROY==> step"<<(count)<<std::endl;
+          (count)++;
+          if(pid.twiddle_switch)
+          {
+              if(count % STEPS_PER_CIRCLE == 0)
+              {
+                if(count/STEPS_PER_CIRCLE == 1)
+                {
+                    //pid.twiddle(best_err);
+                    best_err = pid.avgError();
+                    std::cout<<"best error is "<<best_err<<std::endl;
+                    pid.twiddle_1(); 
+                    pid.resetError();
+                }
+                else if(count/STEPS_PER_CIRCLE > 1)
+                {
+                   std::cout<<"best error is "<<best_err<<std::endl;
+                   pid.twiddle_2(best_err); 
+                   pid.twiddle_1(); 
+                }
+              }
+          }
         }
       } else {
         // Manual driving

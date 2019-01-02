@@ -59,6 +59,29 @@ More information is only accessible by people who are already enrolled in Term 2
 of CarND. If you are enrolled, see [the project page](https://classroom.udacity.com/nanodegrees/nd013/parts/40f38239-66b6-46ec-ae68-03afd8a601c8/modules/f1820894-8322-4bb3-81aa-b26b3c6dcbaf/lessons/e8235395-22dd-4b87-88e0-d108c5e5bbf4/concepts/6a4d8d42-6a04-4aa6-b284-1697c0fd6562)
 for instructions and the project rubric.
 
+## PID Control
+
+###Describe the effect each of the P, I, D components had in your implementation.
+
+    *P(proportional):It makes the vehicle steer when the cte is not 0. The cte is larger, the car steers more.It has a direct impact on the vehicle turning.(tune it first)
+    
+    *I(integral):It is used to reduse the biases over time.(tune it finally)
+    
+    *D(differential):It helps reduce overshoot, make the vehicle steer smoothly.(tune it secondly)
+
+###Describe how the final hyperparameters were chosen.
+    1.Try to tuning parameters manualy to make the vehicle run over one complete circle.Tune P firstly, then tune D, finally tune I.
+        Kp = 0.3
+        Ki = 0.005
+        Kd = 2.0
+        
+    2.Using twiddle to tune parmaters.(main.cpp: line 87-line 106)After about 30 times tunning, the final parters are:
+        Kp = 0.36663
+        Ki = 0.00553184
+        Kd = 3.00968
+        
+*vedios are in /vedio
+
 ## Hints!
 
 * You don't have to follow this directory structure, but if you do, your work

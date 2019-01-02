@@ -61,7 +61,7 @@ for instructions and the project rubric.
 
 ## PID Control
 
-###Describe the effect each of the P, I, D components had in your implementation.
+### Describe the effect each of the P, I, D components had in your implementation.
 
     *P(proportional):It makes the vehicle steer when the cte is not 0. The cte is larger, the car steers more.It has a direct impact on the vehicle turning.(tune it first)
     
@@ -69,7 +69,9 @@ for instructions and the project rubric.
     
     *D(differential):It helps reduce overshoot, make the vehicle steer smoothly.(tune it secondly)
 
-###Describe how the final hyperparameters were chosen.
+### Describe how the final hyperparameters were chosen.
+
+
     1.Try to tuning parameters manualy to make the vehicle run over one complete circle.Tune P firstly, then tune D, finally tune I.
         Kp = 0.3
         Ki = 0.005

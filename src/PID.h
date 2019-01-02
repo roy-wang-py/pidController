@@ -19,13 +19,12 @@ public:
   double Ki;
   double Kd;
 
-  double dKp;
-  double dKi;
-  double dKd;
   double dp[3];
 
+  //the index of parmaters that is tunning
   int turn_index;
 
+  //switch of tuiddle. Tune parmaters if true
   bool twiddle_switch;
 
   /*
@@ -57,14 +56,18 @@ public:
   * Update the PID error variables given cross track error.
   */
   void UpdateError(double cte);
+
+  //calculate steer value
   double calSteerValue();
 
   /*
   * Calculate the total PID error.
   */
   double TotalError();
-
+  //calculate avg error
   double avgError();
+
+  //reset total error
   void resetError();
 
   /*

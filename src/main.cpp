@@ -39,9 +39,9 @@ int main()
   PID pid;
   // TODO: Initialize the pid variable.
 
-  double init_Kp = 0.36663;//0.396;0.428076
-  double init_Ki = 0.00553184;//0.00605;0.00607894;0.00553184
-  double init_Kd = 3.00968;//2.262307;2.26122
+  double init_Kp = 0.36663;
+  double init_Ki = 0.00553184;
+  double init_Kd = 3.00968;
   bool twiddle = false;
   pid.Init(init_Kp, init_Ki, init_Kd ,twiddle);
   unsigned long long count = 0;
